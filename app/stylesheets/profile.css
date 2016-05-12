@@ -1,0 +1,75 @@
+.user-profile-header {
+  border: none;
+  font-size: 24px;
+  font-weight: 300;
+  margin-top: 20px;
+}
+
+.user-image-container {
+  display: inline-block;
+}
+
++
+.tab-content.user-subscription .well {
+  background: transparent;
+  border: #D2287B 2px solid;
+}
++
+.tab-content.user-subscription +
+.subsection-label {
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+}
++
+.tab-content.user-subscription .table.credit-card-list td {
+  border-top-color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  font-size: 16px;
+}
++
+.tab-content.user-subscription .fa-minus-circle {
+  color: #D2287B;
+}
+
+.user-profile-tabs-container {
+  margin: 42px auto 20px;
+  text-align: center;
+}
+.user-profile-tabs-container .pagination.profile-pagination {
+  font-weight: 700;
+  border: #D2287B 2px solid;
+  border-radius: 8px;
+}
+.user-profile-tabs-container .pagination.profile-pagination > li > a {
+  border: none;
+  background-color: transparent;
+  color: white;
+  letter-spacing: 2px;
+}
+.user-profile-tabs-container .pagination.profile-pagination > .active > a {
+  background-color: #D2287B;
+  border-radius: 4px;
+}
+
+.default-form label {
+  font-weight: 300;
+  font-size: 16px;
+}
+.default-form input {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  border: none;
+  font-weight: 300;
+  font-size: 16px;
+  padding: 10px 12px 10px;
+}
+
+.no-left-gutter {
+  padding-left: 0px;
+}
+
+.no-right-gutter {
+  padding-right: 0px;
+}

@@ -50,6 +50,12 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
         templateUrl: '/templates/collection.html'
     });
 
+    $stateProvider.state('artist', {
+        url: '/artist',
+        controller: 'Artist.controller',
+        templateUrl: '/templates/artist.html'
+    });
+
     $stateProvider.state('album', {
         url: '/album',
         templateUrl: '/templates/album.html',
@@ -79,6 +85,19 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
 }]);
 
 blocJams.controller('Collection.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+    $scope.albums = [];
+    for (var i = 0; i < 33; i++) {
+        $scope.albums.push(angular.copy(albumPicasso));
+    }
+
+
+    $scope.playAlbum = function(album) {
+        SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
+    };
+
+}]);
+
+blocJams.controller('Artist.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
     $scope.albums = [];
     for (var i = 0; i < 33; i++) {
         $scope.albums.push(angular.copy(albumPicasso));

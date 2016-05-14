@@ -1,12 +1,35 @@
 require './lib/passport_integration'
 passport = require 'passport'
 express = require 'express'
+oracledb = require 'oracledb'
 {join} = require 'path'
 {config} = require './config'
 controllers = require './controllers'
 #User = require('./models')('user')
 
 app = express()
+
+oracledb.getConnection(
+  {
+    user          : "hotline",
+    password      : "marito",
+    connectString : "localhost/XE"
+  },
+  function(err, connection)
+  {
+    if (err) { console.error(err.message); return; }
+
+    connection.execute(
+      "SELECT department_id, department_name " +
+        "FROM departments " +
+        "WHERE manager_id < :id",
+      [110],  // bind value for :id
+      function(err, result)
+      {
+        if (err) { console.error(err.message); return; }
+        console.log(result.rows);
+      });
+  });
 
 app.configure 'production', ->
   app.use express.limit '5mb'

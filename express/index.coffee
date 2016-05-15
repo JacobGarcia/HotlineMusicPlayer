@@ -1,11 +1,25 @@
 require './lib/passport_integration'
 passport = require 'passport'
 express = require 'express'
+oracledb = require 'oracledb'
 {join} = require 'path'
 {config} = require './config'
 controllers = require './controllers'
 #User = require('./models')('user')
 
+oracledb.getConnection {
+  user: 'JONSNOW'
+  password: 'ygritte'
+  connectString: '192.168.0.103:1521/XE'
+}, (err, connection) ->
+  if err
+    console.error err.message
+    return
+  if connection
+    console.log 'Success'
+    return
+  return
+  
 app = express()
 app.configure 'production', ->
   app.use express.limit '5mb'

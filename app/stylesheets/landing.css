@@ -1,27 +1,53 @@
 .hero-content {
-  background-color: #2F1D57;
-  padding: 100px 0;
-  background: #2F1D57;
+  position: relative;
+  min-height: 600px;
+  background-image: url(/images/bloc_jams_bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
-.hero-content h1 {
-  font-size: 70px;
-  margin-bottom: 50px;
+.hero-content .hero-title {
+  position: absolute;
+  top: 40%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width:100%;
+  text-align: center;
+  font-size: 4rem;
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  text-shadow: 1px 1px 0px rgb(58,23,63);
 }
 
 .selling-points {
-  padding: 100px 0;
+  position: relative;
 }
 
 .selling-points .point h5 {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-top: 20px;
   text-align: center;
-  height: 85px;
 }
 
 .selling-points .point p {
-  font-size: 14px;
+  margin-top: 4rem;
+  font-size: 21px;
+  text-align: center;
+}
+
+.point .point-title {
+  font-size: 1.25rem;
+}
+
+.ion-music-note,
+.ion-radio-waves,
+.ion-iphone {
+  font-size: 10rem;
+  align-self: center;
+  padding-left: 14rem;
 }

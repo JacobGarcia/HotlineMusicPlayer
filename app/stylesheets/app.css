@@ -28,13 +28,16 @@ body.landing .navbar {
 }
 
 .player-header-nav {
-  background-color: rgba(123, 70, 163, 0.9);
+  background-color: rgba(101,18,95, 0.5);
+}
+.navbar{
+  margin: 0;
 }
 .player-header-nav .navbar-nav a {
   line-height: 45px;
   color: white;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 1.2;
 }
 .player-header-nav .navbar-nav a:hover {

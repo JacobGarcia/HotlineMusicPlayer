@@ -1,9 +1,18 @@
-
+###module.exports = {
+  get: (req, res, next) ->
+    console.log 'The results are '
+    req.albums.get (result) ->
+      console.log result.rows
+      res.send result.rows
+      return
+    return
+}###
 _ = require('underscore')
 User = require('../../models')('user')
+albums = require('../../models/albums')
 
 bogusUser = {
-  name: "John Doe",
+  name: "John Do",
   email: "john@example.com",
   city: "Boise",
   state: "Idaho",
@@ -37,6 +46,11 @@ module.exports = {
 
   currentUser: (req, res) ->
     res.json(bogusUser)
+
+  get: (req, res, next) ->
+    console.log 'The results are '
+    albums.get (result) ->
+      res.json(result.rows)
 
     #User.findOne({role: 'dummyUser'}, (err, user) ->
     #  if user

@@ -34,6 +34,7 @@ var albumPicasso = {
     }]
 };
 
+/*************** Routes ******************/
 blocJams = angular.module('BlocJams', ['ui.router']);
 blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -61,6 +62,12 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
         templateUrl: '/templates/album.html',
         controller: 'Album.controller'
     });
+
+}]);
+
+// Get Collection controller
+blocJams.controller('GetCollection.controller', ['$scope', function($scope){
+
 }]);
 
 // This is a cleaner way to call the controller than crowding it on the module definition.
@@ -74,6 +81,7 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
 
 blocJams.controller('Collection.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
     $scope.albums = [];
+
     for (var i = 0; i < 33; i++) {
         $scope.albums.push(angular.copy(albumPicasso));
     }

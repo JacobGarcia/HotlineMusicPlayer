@@ -1,25 +1,13 @@
 require './lib/passport_integration'
 passport = require 'passport'
 express = require 'express'
-oracledb = require 'oracledb'
 {join} = require 'path'
 {config} = require './config'
 controllers = require './controllers'
+albums = require('./models/albums')
+api_getcollection = require('./controllers/api/getcollection')
 #User = require('./models')('user')
 
-oracledb.getConnection {
-  user: 'JONSNOW'
-  password: 'ygritte'
-  connectString: '192.168.0.103:1521/XE'
-}, (err, connection) ->
-  if err
-    console.error err.message
-    return
-  if connection
-    console.log 'Success'
-    return
-  return
-  
 app = express()
 app.configure 'production', ->
   app.use express.limit '5mb'
@@ -58,6 +46,7 @@ app.get('/api/users/:id', api_users_controller.show)
 app.put('/api/users/:id', api_users_controller.update)
 app.put('/api/users/:id/password', api_users_controller.password)
 app.get('/api/currentUser', api_users_controller.currentUser)
+app.get('/api/getcollection', api_getcollection.get)
 
 #app.get('/login', controllers.login)
 #app.post('/login',
@@ -70,12 +59,21 @@ app.get(/^[^.]+$/, (req, res) ->
   res.sendfile('./public/index.html')
 )
 
+#Assign the model to express variable
+app.use (req, res, next) ->
+  req.albums = albums
+  next()
+  return
+
+# Set angular controllers references
 #app.get '/', controllers.landing()
 app.get '/collection', controllers.collection()
 app.get '/album', controllers.album('Album View')
 app.get '/test', controllers.test('Mocha Tests')
 app.get '/user', controllers.user('User')
 app.get '/practice', controllers.practice('Practice your HTML')
+
+
 
 ### Default 404 middleware ###
 app.use controllers.error('Page not found :(', 404)

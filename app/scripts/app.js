@@ -33,7 +33,7 @@ var albumPicasso = {
         audioUrl: '/music/placeholders/magenta'
     }]
 };
-
+var artist;
 /*************** Routes ******************/
 blocJams = angular.module('BlocJams', ['ui.router']);
 blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
@@ -52,15 +52,15 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
     });
 
     $stateProvider.state('artist', {
-        url: '/artist',
+        url: '/artist/:artist_id',
         controller: 'Artist.controller',
         templateUrl: '/templates/artist.html'
     });
 
     $stateProvider.state('album', {
-        url: '/album',
-        templateUrl: '/templates/album.html',
-        controller: 'Album.controller'
+        url: '/album/:album_id',
+        controller: 'Album.controller',
+        templateUrl: '/templates/album.html'
     });
 
 }]);
@@ -104,22 +104,66 @@ blocJams.controller('Collection.controller', ['$scope', '$http', 'SongPlayer', f
 
 }]);
 
-blocJams.controller('Artist.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
-    $scope.albums = [];
-    for (var i = 0; i < 33; i++) {
-        $scope.albums.push(angular.copy(albumPicasso));
-    }
+blocJams.controller('Artist.controller', ['$scope', '$http', 'SongPlayer', '$stateParams', function($scope, $http, SongPlayer, $stateParams) {
+  $scope.albums = [];
 
+  $http.get('/api/getartists/' + $stateParams.artist_id)
+          .success(function(data) {
+              $scope.albums = data;
+              console.log(data);
 
-    $scope.playAlbum = function(album) {
-        SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
-    };
+              angular.forEach($scope.albums, function(value, key){
+                $http.get('/api/getsongs/'+value.ID)
+                .success(function(data) {
+                  value.songs = [];
+                  value.songs = data;
+                  console.log(data);
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
+              });
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+          });
+
+  $scope.playAlbum = function(album) {
+      SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
+  };
 
 }]);
 
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
-    $scope.album = angular.copy(albumPicasso);
+blocJams.controller('Album.controller', ['$scope', '$http', 'SongPlayer', '$stateParams', function($scope, $http, SongPlayer, $stateParams) {
+    $http.get('/api/getalbum/' + $stateParams.album_id)
+            .success(function(data) {
+                $scope.album = data;
+                
+                $http.get('/api/getsongs/'+$scope.album[0].ID)
+                .success(function(data) {
+                  $scope.album[0].songs = [];
+                  $scope.album[0].songs = data;
 
+                  angular.forEach($scope.album[0].songs, function(song, key){
+                    var currentSoundFile = null;
+                    currentSoundFile = new buzz.sound('/music/' + song.ID, {
+                        formats: ["mp3"],
+                        preload: true
+                    });
+
+                    currentSoundFile.bind('canplay', function(e) {
+                        song.length = currentSoundFile.getDuration();
+                    });
+                  });
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
+
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
     var hoveredSong = null;
 
 
@@ -240,7 +284,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
                 preload: true
             });
 
-             currentSoundFile.setVolume(this.volume);
+            currentSoundFile.setVolume(this.volume);
             currentSoundFile.bind('timeupdate', function(e) {
                 song.length = currentSoundFile.getDuration();
                 $rootScope.$broadcast('sound:timeupdate', this.getTime());

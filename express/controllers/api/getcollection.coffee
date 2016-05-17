@@ -1,16 +1,9 @@
-###module.exports = {
-  get: (req, res, next) ->
-    console.log 'The results are '
-    req.albums.get (result) ->
-      console.log result.rows
-      res.send result.rows
-      return
-    return
-}###
 _ = require('underscore')
 User = require('../../models')('user')
 albums = require('../../models/albums')
 songs = require('../../models/songs')
+artist = require('../../models/artist')
+onealbum = require('../../models/album')
 
 bogusUser = {
   name: "John Do",
@@ -56,6 +49,16 @@ module.exports = {
   getsongs: (req, res, next) ->
     album = req.params.album_id
     songs.get album, (result) ->
+      res.json(result.rows)
+
+  getartist: (req, res, next) ->
+    artist_id = req.params.artist_id
+    artist.get artist_id, (result) ->
+      res.json(result.rows)
+
+  getalbum: (req, res, next) ->
+    album_id = req.params.album_id
+    onealbum.get album_id, (result) ->
       res.json(result.rows)
 
     #User.findOne({role: 'dummyUser'}, (err, user) ->

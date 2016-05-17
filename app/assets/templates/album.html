@@ -3,21 +3,21 @@
         <!-- Album Header -->
         <div class='col-md-3'>
             <!-- Album Image -->
-            <img ng-src="{{ album.albumArtUrl}}" />
+            <img ng-src="/images/albums/{{ album[0].ID }}.jpg" />
         </div>
 
         <div class='album-header-information col-md-8 col-md-push-1'>
             <!-- Album Information -->
-            <h3 class='album-title'> {{ album.name }}</h3>
-            <h4 class='album-artist'> {{ album.artist }} </h4>
-            <h5 class='album-meta-info'> {{ album.year }} on {{ album.label }} </h5>
+            <h3 class='album-title'> {{ album[0].ALBUM }}</h3>
+            <h4 class='album-artist'> {{ album[0].ARTIST }} </h4>
+            <h5 class='album-meta-info'> {{ album[0].YEAR }}</h5>
         </div>
     </div>
 
     <div class='row'>
         <!-- Song table -->
         <table class='album-song-listing table'>
-            <tr ng-repeat="song in album.songs" ng-mouseenter="onHoverSong(song)" ng-mouseleave="offHoverSong(song)">
+            <tr ng-repeat="song in album[0].songs" ng-mouseenter="onHoverSong(song)" ng-mouseleave="offHoverSong(song)">
 
                 <td class="song-number col-md-1">
                     <span ng-switch="getSongState(song)">
@@ -36,7 +36,7 @@
              </span>
                     </span>
                     <td>
-                        <td class="col-md-9"> {{ song.name }} </td>
+                        <td class="col-md-9"> {{ song.SONG }} </td>
                          <td class="col-md-2"> {{ song.length | timecode }} </td>
             </tr>
         </table>

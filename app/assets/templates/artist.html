@@ -1,10 +1,9 @@
 <div class="collection-container container">
     <div class="row">
         <!-- Album Header -->
-        <h2>Artist</h2>
         <div ng-repeat="album in albums" class="collection-album-container col-md-2">
             <div ng-mouseenter="showOverlay = true" ng-mouseleave="showOverlay = false" class="collection-album-image-container">
-                <img ng-src="{{ album.albumArtUrl }}">
+                <img ng-src="/images/albums/{{ album.ID }}.jpg">
                 <div class="collection-album-image-overlay" ng-show="showOverlay">
                     <div class="collection-overlay-content">
                           <a class="collection-overlay-button" ng-click="playAlbum(album)">
@@ -19,10 +18,10 @@
             </div>
             <div class="collection-album-info caption">
                 <p>
-                    <!-- <a class="album-name" ui-sref="album"> {{ album.name }} </a>
-                    <br/> -->
-                    <a ui-sref="album"> {{ album.artist }} </a>
-                    <!-- <br/> {{ album.songs.length }} songs -->
+                    <a class="album-name" ui-sref="album"> {{ album.ALBUM }} </a>
+                    <br/>
+                    <a ui-sref="artist({artist_id: {{ album.ARTIST_ID }} })"> {{ album.ARTIST }} </a>
+                    <br/> {{ album.songs.length }} songs
                     <br/>
                 </p>
             </div>

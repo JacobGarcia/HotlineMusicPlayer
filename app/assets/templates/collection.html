@@ -18,9 +18,9 @@
             </div>
             <div class="collection-album-info caption">
                 <p>
-                    <a class="album-name" ui-sref="album"> {{ album.ALBUM }} </a>
+                    <a class="album-name" ui-sref="album({album_id: {{ album.ID }} })"> {{ album.ALBUM }} </a>
                     <br/>
-                    <a ui-sref="album"> {{ album.ARTIST }} </a>
+                    <a ui-sref="artist({artist_id: {{ album.ARTIST_ID }} })"> {{ album.ARTIST }} </a>
                     <br/> {{ album.songs.length }} songs
                     <br/>
                 </p>

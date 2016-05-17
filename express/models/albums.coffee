@@ -30,7 +30,7 @@ module.exports = {
 
   get: (callback) ->
     getConnection (connection) ->
-      connection.execute 'SELECT al.id ID, al.name ALBUM, ar.name ARTIST ' + 'FROM ALBUM al, ARTIST ar, PARTICIPATE p ' + 'WHERE p.album_id = al.id ' + 'AND p.artist_id = ar.id', [], (err, result) ->
+      connection.execute 'SELECT al.id ID, al.name ALBUM, ar.name ARTIST, ar.id ARTIST_ID ' + 'FROM ALBUM al, ARTIST ar, PARTICIPATE p ' + 'WHERE p.album_id = al.id ' + 'AND p.artist_id = ar.id', [], (err, result) ->
         if err
           console.error err.message
           doRelease connection

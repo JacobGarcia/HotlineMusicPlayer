@@ -31,7 +31,7 @@ module.exports = {
   get: (album, callback) ->
     console.log 'The album ID is ' + album
     getConnection (connection) ->
-      connection.execute 'SELECT ALL S.ID ID, S.NAME SONG, A.NAME ALBUM, S.TRACK TRACK FROM BELONG B, SONG S, ALBUM A WHERE B.SONG_ID = S.ID AND B.ALBUM_ID = A.ID AND A.ID =' + album, [], (err, result) ->
+      connection.execute 'SELECT ALL S.ID ID, S.NAME SONG, A.NAME ALBUM, S.TRACK TRACK FROM BELONG B, SONG S, ALBUM A WHERE B.SONG_ID = S.ID AND B.ALBUM_ID = A.ID AND A.ID =' + album + 'ORDER BY TRACK', [], (err, result) ->
         if err
           console.error err.message
           doRelease connection

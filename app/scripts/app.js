@@ -65,11 +65,6 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
 
 }]);
 
-// Get Collection controller
-blocJams.controller('GetCollection.controller', ['$scope', function($scope){
-
-}]);
-
 // This is a cleaner way to call the controller than crowding it on the module definition.
 blocJams.controller('Landing.controller', ['$scope', function($scope) {
     $scope.subText = "Turn the music up!";
@@ -79,12 +74,22 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
     };
 }]);
 
-blocJams.controller('Collection.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+blocJams.controller('Collection.controller', ['$scope', '$http', 'SongPlayer', function($scope, $http, SongPlayer) {
     $scope.albums = [];
 
-    for (var i = 0; i < 33; i++) {
-        $scope.albums.push(angular.copy(albumPicasso));
-    }
+    $http.get('/api/getcollection')
+            .success(function(data) {
+                $scope.albums = data;
+                console.log(data);
+                for (var i = 0; i < 33; i++) {
+                    $scope.albums.push(angular.copy(albumPicasso));
+                }
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+
+
 
 
     $scope.playAlbum = function(album) {

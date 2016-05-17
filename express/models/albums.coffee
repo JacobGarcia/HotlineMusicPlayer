@@ -6,6 +6,7 @@ module.exports = {
   #Database Connection
   getConnection: getConnection = (callback) ->
     console.log 'Getting connection...'
+    oracledb.outFormat = oracledb.OBJECT
     oracledb.getConnection {
       user: user
       password: password
@@ -26,7 +27,7 @@ module.exports = {
         console.error err.message
       return
     return
-    
+
   get: (callback) ->
     getConnection (connection) ->
       connection.execute 'SELECT al.id ID, al.name ALBUM, ar.name ARTIST ' + 'FROM ALBUM al, ARTIST ar, PARTICIPATE p ' + 'WHERE p.album_id = al.id ' + 'AND p.artist_id = ar.id', [], (err, result) ->

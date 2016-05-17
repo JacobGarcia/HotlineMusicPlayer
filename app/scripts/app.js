@@ -29,7 +29,7 @@ var albumPicasso = {
         audioUrl: '/music/placeholders/pink'
     }, {
         name: 'Magenta',
-        length: 375.92,
+        length: 37.92,
         audioUrl: '/music/placeholders/magenta'
     }]
 };
@@ -81,16 +81,22 @@ blocJams.controller('Collection.controller', ['$scope', '$http', 'SongPlayer', f
             .success(function(data) {
                 $scope.albums = data;
                 console.log(data);
-                for (var i = 0; i < 33; i++) {
-                    $scope.albums.push(angular.copy(albumPicasso));
-                }
+
+                angular.forEach($scope.albums, function(value, key){
+                  $http.get('/api/getsongs/'+value.ID)
+                  .success(function(data) {
+                    value.songs = [];
+                    value.songs = data;
+                    console.log(data);
+                  })
+                  .error(function(data) {
+                      console.log('Error: ' + data);
+                  });
+                });
             })
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-
-
-
 
     $scope.playAlbum = function(album) {
         SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
@@ -229,13 +235,14 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
             this.currentAlbum = album;
             this.currentSong = song;
 
-            currentSoundFile = new buzz.sound(song.audioUrl, {
+            currentSoundFile = new buzz.sound('/music/' + song.ID, {
                 formats: ["mp3"],
                 preload: true
             });
 
              currentSoundFile.setVolume(this.volume);
             currentSoundFile.bind('timeupdate', function(e) {
+                song.length = currentSoundFile.getDuration();
                 $rootScope.$broadcast('sound:timeupdate', this.getTime());
             });
 

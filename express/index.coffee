@@ -46,7 +46,9 @@ app.get('/api/users/:id', api_users_controller.show)
 app.put('/api/users/:id', api_users_controller.update)
 app.put('/api/users/:id/password', api_users_controller.password)
 app.get('/api/currentUser', api_users_controller.currentUser)
+app.get('/api/getsongs/:album_id', api_getcollection.getsongs)
 app.get('/api/getcollection', api_getcollection.get)
+
 
 #app.get('/login', controllers.login)
 #app.post('/login',

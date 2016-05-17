@@ -10,6 +10,7 @@
 _ = require('underscore')
 User = require('../../models')('user')
 albums = require('../../models/albums')
+songs = require('../../models/songs')
 
 bogusUser = {
   name: "John Do",
@@ -50,6 +51,11 @@ module.exports = {
   get: (req, res, next) ->
     console.log 'The results are '
     albums.get (result) ->
+      res.json(result.rows)
+
+  getsongs: (req, res, next) ->
+    album = req.params.album_id
+    songs.get album, (result) ->
       res.json(result.rows)
 
     #User.findOne({role: 'dummyUser'}, (err, user) ->
